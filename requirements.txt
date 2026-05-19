@@ -135,3 +135,7 @@ websocket-client==1.9.0
 websockets==16.0
 wheel==0.47.0
 widgetsnbextension==3.5.2
+altair
+pandas
+streamlit
+

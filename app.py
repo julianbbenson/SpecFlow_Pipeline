@@ -40,6 +40,43 @@ if control_file and exp_file:
         # 2. Calculate Differential Expression
         df_results = calculate_differential_expression(df_ctrl_features, df_exp_features)
     
+    # --- NEW FEATURE: RAW SPECTRA OVERLAY ---
+    st.markdown("---")
+    st.subheader("📊 Raw Spectra Overlay (Feature Verification)")
+    st.markdown("Inspect the binned m/z features to validate peak abundance visually before relying on statistical transformations.")
+
+    # We need to 'melt' the dataframe so Plotly can easily group Control vs. Cancer colors
+    df_melted = df_results.melt(
+        id_vars=['mz_feature'],
+        value_vars=['intensity_ctrl', 'intensity_exp'],
+        var_name='Cohort',
+        value_name='Intensity'
+    )
+    
+    # Rename the variables for a clean, professional legend
+    df_melted['Cohort'] = df_melted['Cohort'].map({
+        'intensity_ctrl': 'Control (Healthy)', 
+        'intensity_exp': 'Experimental (Cancer)'
+    })
+
+    # Render a bar chart with an overlay mode to simulate mass spec peaks
+    fig_spectra = px.bar(
+        df_melted,
+        x='mz_feature',
+        y='Intensity',
+        color='Cohort',
+        barmode='overlay',
+        opacity=0.7,
+        color_discrete_map={'Control (Healthy)': '#1f77b4', 'Experimental (Cancer)': '#d62728'},
+        labels={'mz_feature': 'm/z (Mass-to-Charge Ratio)', 'Intensity': 'Absolute Abundance (TIC)'},
+    )
+    
+    # Make the bars thin to look like real analytical "stick" spectra
+    fig_spectra.update_traces(marker_line_width=0, width=0.4)
+    fig_spectra.update_layout(hovermode="x unified")
+    
+    st.plotly_chart(fig_spectra, use_container_width=True)
+    
     st.markdown("---")
     st.subheader("🌋 Differential Expression (Volcano Plot)")
     

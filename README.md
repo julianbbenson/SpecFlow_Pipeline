@@ -1,5 +1,9 @@
 # SpecFlow: Automated Mass Spectrometry ETL & Quantification Pipeline
 
+> **Note:** The lanthanide-DOTA / ion-mobility CL-MS parser has been moved to its
+> own repository: [clms-parser](https://github.com/julianbbenson/clms-parser).
+> Development continues there.
+
 **Author:** Julian Benson  
 **Domain:** Computational Biology / Proteomics  
 

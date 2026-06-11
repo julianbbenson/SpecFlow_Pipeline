@@ -1,0 +1,7 @@
+# Mass spec raw data — never commit, store on lab server
+*.mzML
+*.raw
+*.d/
+*.wiff
+*.wiff.scan
+data/raw/
